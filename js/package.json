@@ -1,0 +1,46 @@
+{
+  "name": "intrustd-backups-app",
+  "version": "1.0.0",
+  "description": "The default Backups application that ships with intrustd",
+  "main": "src/Backups.js",
+  "scripts": {
+    "build": "webpack --progress -p --config webpack.prod.js",
+    "watch": "webpack --progress --watch --config webpack.dev.js"
+  },
+  "author": "Travis Athougies",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "font-awesome": "^4.7.0",
+    "intrustd": "../../../js",
+    "react": "^16.5.2",
+    "react-bootstrap": "^1.0.0-beta.5",
+    "react-dom": "^16.5.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-visibility-sensor": "^5.0.2",
+    "underscore": "^1.9.1",
+    "webpack-merge": "^4.1.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^2.0.0",
+    "handlebars": "^4.0.11",
+    "handlebars-loader": "^1.7.0",
+    "html-webpack-plugin": "^3.2.0",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "less-plugin-rewrite-import": "^0.1.1",
+    "mini-css-extract-plugin": "^0.4.2",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-closure-compiler": "^2.1.6"
+  }
+}
