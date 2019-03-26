@@ -59,14 +59,14 @@ in {
 #      startExec = "${pkgs.socat}/bin/socat TCP-LISTEN:22,reuseaddr,fork exec:${server},stderr";
 #    };
 #
- app.services.backup-api = {
-   name = "backup";
-   autostart = true;
-
-   startExec = ''
-     exec ${backup-app}/bin/backups-meta-api
-   '';
- };
+#  app.services.backup-api = {
+#    name = "backup";
+#    autostart = true;
+#
+#    startExec = ''
+#      exec ${backup-app}/bin/backups-meta-api
+#    '';
+#  };
 
   app.permsHook = "${backup-app}/bin/backup-perms";
 
