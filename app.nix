@@ -45,28 +45,28 @@ in {
 
   app.identifier = "backups.intrustd.com";
 
-#  app.services.backup-service =
-#    let server =  pkgs.substituteAll {
-#                    isExecutable = true;
-#                    src = ./backup.sh;
-#                    inherit borg;
-#                    inherit mux;
-#                    inherit (pkgs) bash curl jq;
-#                  };
-#    in {
-#      autostart = true;
-#      name = "backup-service";
-#      startExec = "${pkgs.socat}/bin/socat TCP-LISTEN:22,reuseaddr,fork exec:${server},stderr";
-#    };
-#
-#  app.services.backup-api = {
-#    name = "backup";
-#    autostart = true;
-#
-#    startExec = ''
-#      exec ${backup-app}/bin/backups-meta-api
-#    '';
-#  };
+  app.services.backup-service =
+    let server =  pkgs.substituteAll {
+                    isExecutable = true;
+                    src = ./backup.sh;
+                    inherit borg;
+                    inherit mux;
+                    inherit (pkgs) bash curl jq;
+                  };
+    in {
+      autostart = true;
+      name = "backup-service";
+      startExec = "${pkgs.socat}/bin/socat TCP-LISTEN:22,reuseaddr,fork exec:${server},stderr";
+    };
+
+  app.services.backup-api = {
+    name = "backup";
+    autostart = true;
+
+    startExec = ''
+      exec ${backup-app}/bin/backups-meta-api
+    '';
+  };
 
   app.permsHook = "${backup-app}/bin/backup-perms";
 

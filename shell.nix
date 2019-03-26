@@ -1,12 +1,12 @@
 { pkgs ? import <nixpkgs> {} }:
 
-let intrustd-py-srcs = ../../py;
-    # pkgs.fetchFromGitHub {
-    #   owner = "intrustd";
-    #   repo = "py-intrustd";
-    #   rev = "c8cf38de51c2b2249b2c57fa01b29b554b248c42";
-    #   sha256 = "0gfh44v1nn6hnlmw011qli20nn1lly6rql326kd087ighil9b6g2";
-    # };
+let intrustd-py-srcs =
+      pkgs.fetchFromGitHub {
+        owner = "intrustd";
+        repo = "py-intrustd";
+        rev = "8d4900d01845c114db0ede7bfc2773b895264e15";
+        sha256 = "1qbg9kz57pwk0mbqz1ppp622cc8srfarmmih4rn4vfhg71y6mijp";
+      };
 
     intrustd-py = pkgs.callPackage intrustd-py-srcs { };
 
