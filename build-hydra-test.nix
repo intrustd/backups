@@ -11,11 +11,13 @@ let systems = builtins.attrNames (import <system/systems.nix>);
       in { name = pkgs.hostPlatform.config;
            value = pkgs; };
 
-    bundle = import ./build-bundle.nix {
+    bundle = import <intrustd/nix/build-bundle.nix> {
        systems = builtins.listToAttrs (map mkJobs systems);
        app-module = <src/app.nix>;
        pure-build = true;
     };
 
-in { static = pkgs.callPackage <src/static.nix> { inherit (bundle) manifest; };
-   }
+in { inherit (bundle) manifest; }
+#     static = pkgs.callPackage <src/static.nix> { inherit (bundle) manifest; };
+#   } //
+#   mapAttrs' (platform: value: nameValuePair "app-${platform}" value) bundle.toplevels
