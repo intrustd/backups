@@ -6,7 +6,8 @@ install({permissions: [ "intrustd+perm://backups.intrustd.com/admin",
                         "intrustd+perm://admin.intrustd.com/login/transfer",
                         "intrustd+perm://admin.intrustd.com/guest/transfer",
                         "intrustd+perm://admin.intrustd.com/site/transfer" ],
-         appName: 'backups.intrustd.com'})
+         appName: 'backups.intrustd.com',
+         requiredVersion: '0.1.0' })
 
 import react from 'react';
 import ReactDom from 'react-dom';

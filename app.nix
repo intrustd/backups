@@ -35,6 +35,9 @@ let intrustd-py = (import ./shell.nix {}).intrustd-py;
     borg = pkgs.borgbackup.override { python3Packages = pypkgs; withDocs = false; };
 
 in {
+  app.version.major = 0;
+  app.version.minor = 1;
+
   app.meta = {
     slug = "backups";
     name = "Intrustd Backups";

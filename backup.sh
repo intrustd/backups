@@ -161,7 +161,7 @@ if [ -z "$REMOTE_VERSION" ]; then
 fi
 
 STORAGE_QUOTA="" #TODO lookup
-CLIENT_NAME="test"
+# CLIENT_NAME="test"
 BACKUP_PATH="/intrustd/${CLIENT_NAME}"
 
 exec @mux@/bin/mux @borg@/bin/borg $DEBUG_LEVEL $DEBUG_TOPICS serve $STORAGE_QUOTA --restrict-to-path="${BACKUP_PATH}"
