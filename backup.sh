@@ -7,6 +7,8 @@ echo "version ${LOCAL_VERSION}"
 PEER="$SOCAT_PEERADDR"
 CURL="@curl@/bin/curl"
 JQ="@jq@/bin/jq"
+GREP="@gnugrep@/bin/grep"
+SED="@gnused@/bin/sed"
 
 fail_proto () {
     echo "error $1"
@@ -14,7 +16,7 @@ fail_proto () {
 }
 
 get_backups() {
-    $CURL -s -X GET http://admin.intrustd.com.app.local/$PEER/permissions 2>/dev/null | $JQ -r '.[]' | grep '^intrustd+perm://backups.intrustd.com/backup/' | grep '/transfer$' | sed 's,^intrustd+perm://backups.intrustd.com/backup/\([0-9a-fA-F\-]\+\)/transfer$,\1,'
+    $CURL -s -X GET http://admin.intrustd.com.app.local/$PEER/permissions 2>/dev/null | $JQ -r '.[]' | $GREP '^intrustd+perm://backups.intrustd.com/backup/' | $GREP '/transfer$' | $SED 's,^intrustd+perm://backups.intrustd.com/backup/\([0-9a-fA-F\-]\+\)/transfer$,\1,'
 }
 
 DEBUG_LEVEL=""

@@ -51,7 +51,7 @@ in {
                     src = ./backup.sh;
                     inherit borg;
                     inherit mux;
-                    inherit (pkgs) bash curl jq;
+                    inherit (pkgs) bash curl jq gnused gnugrep;
                   };
     in {
       autostart = true;
