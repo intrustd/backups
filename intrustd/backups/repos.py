@@ -3,8 +3,6 @@ import os.path
 from uuid import UUID
 from enum import Enum, unique
 
-from borg.repository import Repository as BorgRepository
-
 from .errors import InvalidEnum
 
 @unique
@@ -28,9 +26,6 @@ class Repository(object):
         except FileNotFoundError:
             self.info = {}
             create = True
-
-        self.repo = BorgRepository(self.path, create=True, exclusive=True,
-                                   storage_quota=storage_quota)
 
     @property
     def intrustd_info_path(self):

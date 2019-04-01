@@ -13,11 +13,11 @@ let intrustd-py = (import ./shell.nix {}).intrustd-py;
       pname = "intrustd-backups";
       version = "0.1.0";
 
-      src = ./.; #if pure-build then ./. else ./dist/intrustd-backups-0.1.0.tar.gz;
+      src = ./dist/intrustd-backups-0.1.0.tar.gz; # ./.;
 
       doCheck = false;
 
-      propagatedBuildInputs = with pypkgs; [ flask intrustd-py borg ];
+      propagatedBuildInputs = with pypkgs; [ flask intrustd-py sqlalchemy ];
     };
 
     mux = pkgs.stdenv.mkDerivation {
@@ -32,7 +32,7 @@ let intrustd-py = (import ./shell.nix {}).intrustd-py;
       '';
     };
 
-    borg = pkgs.borgbackup.override { python3Packages = pypkgs; withDocs = false; };
+    borg = pkgs.borgbackup.override { python3Packages = pypkgs; }; # withDocs = false; };
 
 in {
   app.version.major = 0;
@@ -54,7 +54,8 @@ in {
                     src = ./backup.sh;
                     inherit borg;
                     inherit mux;
-                    inherit (pkgs) bash curl jq gnused gnugrep;
+                    inherit (pkgs) bash curl jq gnused gnugrep coreutils;
+                    sqlite = pkgs.sqlite.bin;
                   };
     in {
       autostart = true;
@@ -69,6 +70,12 @@ in {
     startExec = ''
       exec ${backup-app}/bin/backups-meta-api
     '';
+
+    environment = {
+      INTRUSTD_BACKUPS = "/intrustd/";
+      BORG = "${borg}/bin/borg";
+      HOME = "/intrustd/";
+    };
   };
 
   app.permsHook = "${backup-app}/bin/backup-perms";

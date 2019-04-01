@@ -9,6 +9,8 @@ CURL="@curl@/bin/curl"
 JQ="@jq@/bin/jq"
 GREP="@gnugrep@/bin/grep"
 SED="@gnused@/bin/sed"
+HEAD="@coreutils@/bin/head"
+SQLITE="@sqlite@/bin/sqlite3"
 
 fail_proto () {
     echo "error $1"
@@ -36,7 +38,7 @@ while read -r line; do
             ;;
 
         start)
-            BACKUP_ID=$(get_backups | head)
+            BACKUP_ID=$(get_backups | $HEAD -1)
             if [ -z "$BACKUP_ID" ]; then
                 echo "401 No backups authorized"
                 exit 2
@@ -66,11 +68,12 @@ while read -r line; do
             ;;
 
         info)
-            BACKUPS=$(get_backups | head -1)
+            BACKUPS=$(get_backups | $HEAD -1)
             if [ -z "$BACKUPS" ]; then
                 echo "400 No Backups"
             else
-                if [ ! -f /intrustd/"$BACKUPS"/intrustd.json ]; then
+                BACKUP_EXISTS=$($SQLITE /intrustd/backups.db "SELECT EXISTS(SELECT 1 FROM backup WHERE id='${BACKUPS}')")
+                if [ "$BACKUP_EXISTS" = "0" ]; then
                     echo "404 Backup not found"
                 else
                     REMOTE_PERSONA=$($CURL http://admin.intrustd.com.app.local/container/$PEER -H 'Accept: application/json' --fail -s 2>/dev/null | $JQ -r .persona_id)
@@ -79,7 +82,7 @@ while read -r line; do
                         echo "403 No persona found"
                     else
                         PERSONA_INFO=$($CURL http://admin.intrustd.com.app.local/personas/"$REMOTE_PERSONA" -H 'Accept: application/json' --fail -s 2>/dev/null)
-                        BACKUP_INFO=$(cat /intrustd/"$BACKUPS"/intrustd.json)
+                        BACKUP_INFO=$($SQLITE /intrustd/backups.db "SELECT json_object('id', id, 'name', name, 'description', description, 'backupType', LOWER(backup_type)) FROM backup WHERE id='${BACKUPS}'")
                         read -r -d '' RETDATA <<EOF
 { "container": ${PERSONA_INFO},
   "backup": ${BACKUP_INFO},
@@ -162,6 +165,8 @@ fi
 
 STORAGE_QUOTA="" #TODO lookup
 # CLIENT_NAME="test"
-BACKUP_PATH="/intrustd/${CLIENT_NAME}"
+BACKUP_PATH="/intrustd/repository"
 
-exec @mux@/bin/mux @borg@/bin/borg $DEBUG_LEVEL $DEBUG_TOPICS serve $STORAGE_QUOTA --restrict-to-path="${BACKUP_PATH}"
+export BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK='yes'
+export BORG_RELOCATED_REPO_ACCESS_IS_OK='yes'
+exec @mux@/bin/mux @borg@/bin/borg $DEBUG_LEVEL $DEBUG_TOPICS serve --progress $STORAGE_QUOTA --restrict-to-path="${BACKUP_PATH}"
