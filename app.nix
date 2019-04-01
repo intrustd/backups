@@ -32,7 +32,7 @@ let intrustd-py = (import ./shell.nix {}).intrustd-py;
       '';
     };
 
-    borg = pkgs.borgbackup.override { python3Packages = pypkgs; }; # withDocs = false; };
+    borg = pkgs.borgbackup.override { python3Packages = pypkgs;  withDocs = false; };
 
 in {
   app.version.major = 0;
