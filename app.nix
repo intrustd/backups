@@ -13,7 +13,7 @@ let intrustd-py = (import ./shell.nix {}).intrustd-py;
       pname = "intrustd-backups";
       version = "0.1.0";
 
-      src = ./dist/intrustd-backups-0.1.0.tar.gz; # ./.;
+      src = ./.; # dist/intrustd-backups-0.1.0.tar.gz; # ./.;
 
       doCheck = false;
 
