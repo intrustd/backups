@@ -15,7 +15,7 @@ in
 pkgs.stdenv.mkDerivation {
   name = "intrustd-backups";
 
-  buildInputs = [ (pkgs.python3.withPackages (ps: with ps; [ flask intrustd-py sqlalchemy ])) pkgs.borgbackup ];
+  buildInputs = [ (pkgs.python3.withPackages (ps: with ps; [ flask intrustd-py sqlalchemy ])) pkgs.borgbackup pkgs.nodePackages.node2nix ];
 
   inherit intrustd-py;
 }

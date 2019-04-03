@@ -138,7 +138,7 @@ def session_scope():
 
 def run_borg_simple(args):
     proc = subprocess.Popen([ get_borg_exe() ] + args, stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE, env=get_borg_env)
+                            stderr=subprocess.PIPE, env=get_borg_env())
 
     stdout, stderr = proc.communicate()
     proc.wait()
