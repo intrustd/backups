@@ -2,12 +2,12 @@
 
 let intrustd-py = (import ./shell.nix {}).intrustd-py;
 
-    pypkgs = pkgs.python3Packages;
-#    (pkgs.python3.override {
-#       packageOverrides = self: super: {
-#         cython = super.cython.override { gdb = null; };
-#       };
-#    }).pkgs;
+    pypkgs = #pkgs.python3Packages;
+      (pkgs.python3.override {
+         packageOverrides = self: super: {
+           cython = super.cython.overrideAttrs (oldAttrs: { doCheck = false; });
+         };
+      }).pkgs;
 
     backup-app = pypkgs.buildPythonPackage rec {
       pname = "intrustd-backups";

@@ -33,6 +33,8 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import 'bootstrap/scss/bootstrap.scss';
 import 'font-awesome/scss/font-awesome.scss';
 
+import './backups.svg';
+
 import { HashRouter as Router,
          Route, Switch, withRouter,
          Link } from 'react-router-dom';

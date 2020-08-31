@@ -56,13 +56,13 @@ def backups():
                        description=data.get('description', ''),
                        backup_type=ty)
 
-#            token = mint_token(BrowsePerm(backup_id=backup_id_str).transfer,
-#                               BackupPerm(backup_id=backup_id_str).transfer,
-#                               MetaPerm,
-#                               on_behalf_of=request.remote_addr)
-#
-#            b.cur_token = token
-            token = "abcd"
+            token = mint_token(BrowsePerm(backup_id=backup_id_str).transfer,
+                               BackupPerm(backup_id=backup_id_str).transfer,
+                               MetaPerm,
+                               on_behalf_of=request.remote_addr)
+
+            b.cur_token = token
+#            token = "abcd"
             session.add(b)
 
         rsp = jsonify(token=token)
